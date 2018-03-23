@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FangyuanHelper.iml" filepath="$PROJECT_DIR$/.idea/FangyuanHelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../fangyuan_spider/.idea/fangyuan_spider.iml" filepath="$PROJECT_DIR$/../fangyuan_spider/.idea/fangyuan_spider.iml" />
     </modules>
   </component>
 </project>
