@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://webapi.amap.com/maps?v=1.4.4&key=856c19bd1c0f48718f528787489b6333&plugin=AMap.Autocomplete"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <form action="/ditu/" method="post">
+        <table>
+            <tr>
+                <td>工作地点：</td>
+                <td>
+                    <input id="work-location" name="work-location" type="text" required>
+                </td>
+            </tr>
+            <tr>
+                <td>价格区间：</td>
+                <td>
+                    <input id="price1" name="price1" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" size="6" value="0">
+                    --
+                    <input id="price2" name="price2" type="text" onkeyup="value=value.replace(/[^\d]/g,'')" size="6" value="10000">
+                </td>
+            </tr>
+            <tr>
+                <td>租凭方式：</td>
+                <td>
+                    <input type="radio" name="zuping" value="ZHENGZU" checked/> 整租
+                    <input type="radio" name="zuping" value="HEZU" /> 合租
+                </td>
+            </tr>
+            <tr>
+                <td>房源：</td>
+                <td>
+                    <input type="radio" name="fangyuan" value="GEREN" checked/> 个人
+                    <input type="radio" name="fangyuan" value="JINGJIREN" /> 经纪人
+                </td>
+            </tr>
+            <tr>
+                <td>交通方式：</td>
+                <td>
+                    <input type="radio" name="jiaotong" value="BUS" checked/> 公交
+                    <input type="radio" name="jiaotong" value="JIACHE" /> 驾车
+                </td>
+            </tr>
+            <tr><td><input type="submit" value="提交"></td></tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        var auto = new AMap.Autocomplete({
+            input: "work-location"
+        })
+    </script>
+</body>
+</html>

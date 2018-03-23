@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://webapi.amap.com/maps?v=1.4.4&key=856c19bd1c0f48718f528787489b6333&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete,AMap.ToolBar"></script>
+    <title>高德地图</title>
+    <style type="text/css">
+        body,html,#container{
+          height: 100%;
+          margin: 0px;
+        }
+
+        .ab{
+            position: absolute;
+            top: 30px;
+            right: 20px;
+        }
+
+        #transfer-panel {
+            position: absolute;
+            background-color: white;
+            max-height: 80%;
+            overflow-y: auto;
+            top: 30px;
+            left: 20px;
+            width: 250px;
+        }
+      </style>
+</head>
+<body onload="loadWorkLocation()">
+    <div id="container"></div>
+    <div id="transfer-panel"></div>
+
+    <script type="text/javascript">
+        var workAddress, workMarker
+        var arrivalRange = new AMap.ArrivalRange();
+        var x, y, t, vehicle = "SUBWAY,BUS";
+        var polygonArray = [];
+        var rentMarkerArray = [];
+        var amapTransfer;
+        var markAddress = [];
+
+        var infoWindow = new AMap.InfoWindow({
+            offset: new AMap.Pixel(0, -30)
+        });
+
+        var map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom: 10,
+            center: [114, 22]
+        });
+
+        var scale = new AMap.Scale();
+        map.addControl(scale);
+
+        function loadWorkMarker(x, y) {
+            workMarker = new AMap.Marker({
+                map: map,
+                // title: locationName,
+                icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+                position: [x, y]
+
+            });
+        }
+
+        function loadWorkLocation() {
+            // delWorkLocation();
+            var geocoder = new AMap.Geocoder({
+                city: "深圳",
+                radius: 1000
+            });
+            workAddress = '{{workAddress}}'
+            geocoder.getLocation(workAddress, function(status, result) {
+                if (status === "complete" && result.info === 'OK') {
+                    var geocode = result.geocodes[0];
+                    x = geocode.location.getLng(); //坐标
+                    y = geocode.location.getLat();
+                    loadWorkMarker(x, y);
+                    loadWorkRange(x, y, 60, "#3f67a5", vehicle);
+                    // map.setZoomAndCenter(12, [x, y]);
+                    map.setFitView();
+                    //addMarkerByAddress('深圳北站')
+                    loadMarkAddress();
+                }
+            })
+        }
+
+        function loadWorkRange(x, y, t, color, v) {
+            arrivalRange.search([x, y], t, function(status, result) {
+                if (result.bounds) {
+                    for (var i = 0; i < result.bounds.length; i++) {
+                        var polygon = new AMap.Polygon({
+                            map: map,
+                            fillColor: color,
+                            fillOpacity: "0.4",
+                            strokeColor: color,
+                            strokeOpacity: "0.8",
+                            strokeWeight: 1
+                        });
+                        polygon.setPath(result.bounds[i]);
+                        polygonArray.push(polygon);
+                    }
+                }
+            }, {
+                policy: v
+            });
+        }
+
+        function addMarkerByAddress(address, url) {
+            var geocoder = new AMap.Geocoder({
+                city: "深圳",
+                radius: 1000
+            });
+            geocoder.getLocation(address, function(status, result) {
+                if (status === "complete" && result.info === 'OK') {
+                    var geocode = result.geocodes[0];
+                    rentMarker = new AMap.Marker({
+                        map: map,
+                        title: address,
+                        icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+                        position: [geocode.location.getLng(), geocode.location.getLat()]
+                    });
+                    rentMarkerArray.push(rentMarker);
+
+                    rentMarker.content = "<div>房源：<a target = '_blank' href='" + url + "'>" + address + "</a><div>"
+                    rentMarker.on('click', function(e) {
+                        infoWindow.setContent(e.target.content);
+                        infoWindow.open(map, e.target.getPosition());
+                        if (amapTransfer) amapTransfer.clear();
+                        amapTransfer = new AMap.Transfer({
+                            map: map,
+                            policy: AMap.TransferPolicy.LEAST_TIME,
+                            city: "深圳市",
+                            panel: 'transfer-panel'
+                        });
+                        amapTransfer.search([{
+                            keyword: workAddress
+                        }, {
+                            keyword: address
+                        }], function(status, result) {})
+                    });
+                }
+            })
+        }
+
+        function loadMarkAddress(){
+            markAddress = {{markAddress | safe}};
+            markUrl = {{markUrl | safe}}
+            for (var i = markAddress.length - 1; i >= 0; i--) {
+                console.log(markAddress[i]);
+                addMarkerByAddress(markAddress[i],markUrl[i]);
+            };
+        }
+
+
+    </script>
+</body>
+</html>
