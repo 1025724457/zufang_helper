@@ -5,7 +5,7 @@ import pymysql
 
 DB_IP = 'localhost'
 DB_USERNAME = 'root'
-DB_PASSWORD = 'sa'
+DB_PASSWORD = '123456'
 TABLE = 'fangyuan'
 def exist_of_table(table_name):
     """
@@ -77,7 +77,7 @@ def insert(db, cursor, house_title, house_url, house_price, house_zuping, house_
     try:
         result = cursor.execute(insert_sql)
         db.commit()
-        print('insert success')
+        print('insert success\n')
         return result
     except Exception as e:
         db.rollback()
@@ -90,7 +90,7 @@ def create_table():
     创建数据库表
     :return:
     """
-    create_table_sql = """CREATE TABLE fangyuan(
+    create_table_sql = """CREATE TABLE fangyuan_info(
                 id int auto_increment primary key,
                 house_title varchar(100),
                 house_url varchar(500),
@@ -99,7 +99,7 @@ def create_table():
                 house_size varchar(20),
                 house_xiaoqu varchar(20),
                 house_area varchar(20),
-                hoouse_detailed_address varchar(60),
+                house_detailed_address varchar(60),
                 house_phone varchar(20),
                 house_man varchar(20))default charset=utf8"""
     db = pymysql.connect(DB_IP, DB_USERNAME, DB_PASSWORD, TABLE)

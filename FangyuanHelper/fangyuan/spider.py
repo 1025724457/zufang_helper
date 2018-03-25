@@ -83,7 +83,6 @@ def house_spider(house_url_list):
         print('详细地址：'+house_detailed_address)
         print('联系电话：'+house_phone)
         print('联系人：'+house_man)
-        print('\n')
 
         #存入数据库
         db = pymysql.connect(DB_IP, DB_USERNAME, DB_PASSWORD, TABLE, charset='utf8')

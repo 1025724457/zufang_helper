@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fangyuan_helper',
         'USER': 'root',
-        'PASSWORD': 'sa',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '3306',
 
