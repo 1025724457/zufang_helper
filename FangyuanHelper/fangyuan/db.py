@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-
 import pymysql
 
 
@@ -52,19 +51,6 @@ def insert(db, cursor, house_title, house_url, house_price, house_zuping, house_
            house_detailed_address, house_phone, house_man):
     """
     向数据库插入数据
-    :param db:
-    :param cursor:
-    :param house_title:
-    :param house_url:
-    :param house_price:
-    :param house_zuping:
-    :param house_size:
-    :param house_xiaoqu:
-    :param house_area:
-    :param house_detailed_address:
-    :param house_phone:
-    :param house_man:
-    :return:
     """
     insert_sql = """INSERT INTO fangyuan_info(house_title, house_url, house_price, house_zuping, house_size, 
                         house_xiaoqu, house_area, house_detailed_address, house_phone, house_man)
@@ -114,6 +100,22 @@ def create_table():
         db.close()
 
 
+def clear_table():
+    db = pymysql.connect(DB_IP, DB_USERNAME, DB_PASSWORD, TABLE)
+    cursor = db.cursor()
+    try:
+        result = cursor.execute('delete from fangyuan_info where 1=1')
+        result2 = cursor.execute('truncate table fangyuan_info')
+        db.commit()
+        return result, result2
+    except Exception as e:
+        print('delete fail')
+        print(e)
+        db.rollback()
+    finally:
+        db.close()
+
+
 if __name__ == '__main__':
     # if not exist_of_table('fangyuan_info'):
     #     print('table is not exist,create table...')
@@ -127,6 +129,8 @@ if __name__ == '__main__':
     #        house_size='test5', house_xiaoqu='test6', house_area='test7', house_detailed_address='test8',
     #        house_phone='test9', house_man='test10')
     # db.close()
-    info = select()
-    for i in info:
-        print(i)
+    # info = select()
+    # for i in info:
+    #     print(i)
+    r = clear_table()
+    print(r)
