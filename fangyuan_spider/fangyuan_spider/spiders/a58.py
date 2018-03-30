@@ -3,7 +3,7 @@ import scrapy
 from bs4 import BeautifulSoup
 import re
 import time
-from  fangyuan_spider.items import FangyuanSpiderItem
+from fangyuan_spider.items import FangyuanSpiderItem
 
 
 global all_num
@@ -18,21 +18,24 @@ fail_num = 0
 class A58Spider(scrapy.Spider):
     name = '58'
     allowed_domains = ['sz.58.com/chuzu']
-    start_urls = ['http://sz.58.com/chuzu']  # 抓取的页面
+    start_urls = []  # 抓取的页面
+    base_url = 'http://sz.58.com/chuzu/pn'
+    for i in range(10):
+        start_urls.append(base_url+str(i))
     num = 0
+    parse_num = 0
 
     def parse(self, response):
         global all_num
         html = BeautifulSoup(response.body, 'lxml')
         house_list = html.select('.des a[tongji_label]')  # 解析房源链接
-        temp_num = 0
-        res = []
+
         for a in house_list:
             temp = re.search('pinpaigongyu', str(a))  # 排除品牌公寓的房源链接
             if temp is None:
                 url = a['href']
-                temp_num += 1
-                print('房源链接：'+str(temp_num)+' '+url)
+                self.parse_num += 1
+                print('房源链接：'+str(self.parse_num)+' '+url)
                 yield scrapy.Request(url, callback=self.house_parse, dont_filter=True)  # 回掉函数house_parse
 
     def house_parse(self, response):
@@ -91,6 +94,7 @@ class A58Spider(scrapy.Spider):
         # print('联系电话：' + house_phone)
         # print('联系人：' + house_man)
         # print('\n')
+
 
 
 

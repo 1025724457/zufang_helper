@@ -112,6 +112,7 @@ if __name__ == '__main__':
     else:
         db.clear_table()  # 清除表数据
         print('table exits')
+    db.close()
     base_url = 'http://sz.58.com'
     url = 'http://sz.58.com/chuzu/'
     house_url_list = url_spider(url)
