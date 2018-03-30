@@ -1,10 +1,9 @@
 # -*- coding:utf-8 -*-import requests
 from bs4 import BeautifulSoup
 import re
-from fangyuan.db import *
+from fangyuan.db import DB
 import time
 import requests
-import traceback
 
 global all_num
 global su_num
@@ -95,23 +94,23 @@ def house_spider(house_url_list):
         print('联系人：'+house_man)
 
         print('\n')
-        #存入数据库
-        db = pymysql.connect(DB_IP, DB_USERNAME, DB_PASSWORD, TABLE, charset='utf8')
-        cursor = db.cursor()
-        insert(db=db, cursor=cursor, house_title=house_title, house_url=house_url, house_price=house_price,
-               house_zuping=house_zuping, house_size=house_size, house_xiaoqu=house_xiaoqu, house_area=house_area,
-               house_detailed_address=house_detailed_address, house_phone=house_phone, house_man=house_man)
+        # 存入数据库
+        db = DB()
+        db.insert(house_title=house_title, house_url=house_url, house_price=house_price,house_zuping=house_zuping,
+                  house_size=house_size, house_xiaoqu=house_xiaoqu, house_area=house_area,
+                  house_detailed_address=house_detailed_address, house_phone=house_phone, house_man=house_man)
         db.close()
 
 
 if __name__ == '__main__':
+    db = DB()
     # 如果数据库表不存在，则创建表
-    if not exist_of_table('fangyuan_info'):
+    if not db.exist_of_table('fangyuan_info'):
         print('table is not exist,create table...')
-        create_table()
+        db.create_table()
         print('create success')
     else:
-        clear_table()  # 清除表数据
+        db.clear_table()  # 清除表数据
         print('table exits')
     base_url = 'http://sz.58.com'
     url = 'http://sz.58.com/chuzu/'

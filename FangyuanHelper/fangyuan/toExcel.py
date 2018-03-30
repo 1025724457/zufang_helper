@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
 import csv
-from fangyuan import db
+from fangyuan.db import DB
 
 
 def to_excel():
     """将数据库中的数据导入到Excel表格"""
+    db = DB()
     house_info = db.select()
     csv_file = open(r'D:\myproject\fangyuan_info.csv', 'w', newline='')
     csv_writer = csv.writer(csv_file, delimiter=',')

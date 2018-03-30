@@ -2,7 +2,7 @@
 
 
 from django.shortcuts import render
-from fangyuan import db
+from fangyuan.db import DB
 import json
 import re
 
@@ -34,6 +34,7 @@ def show_ditu(request):
     print(zuping)
     print(fangyuan)
     print(jiaotong)
+    db = DB()
     house_info = db.select()
     mark_address = []
     mark_url = []

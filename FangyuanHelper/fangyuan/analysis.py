@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
-from fangyuan import db
+from fangyuan import db_old
 
 
 def data_analysis():
     """根据数据库中的数据进行房源数据的分析"""
-    house_info = db.select()
+    house_info = db_old.select()
     for i in house_info:
         house_title = i[1]
         house_url = i[2]
