@@ -11,6 +11,10 @@ def get_info(request):
     return render(request, 'info.html')
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
 def show_ditu(request):
     info = request.POST
     # print(request.POST)
@@ -27,13 +31,13 @@ def show_ditu(request):
         fangyuan = '个人'
     else:
         fangyuan = '经纪人'
-    jiaotong = info['jiaotong']
+    # jiaotong = info['jiaotong']
     print(work_location)
     print(price1)
     print(price2)
     print(zuping)
     print(fangyuan)
-    print(jiaotong)
+    # print(jiaotong)
     db = DB()
     house_info = db.select()
     mark_address = []
