@@ -6,27 +6,17 @@ import time
 from fangyuan_spider.items import FangyuanSpiderItem
 
 
-global all_num
-global su_num
-global fail_num
-global exec_list
-all_num = 0
-su_num = 0
-fail_num = 0
-
-
 class A58Spider(scrapy.Spider):
     name = '58'
     allowed_domains = ['sz.58.com/chuzu']
     start_urls = []  # 抓取的页面
     base_url = 'http://sz.58.com/chuzu/pn'
-    for i in range(10):
+    for i in range(1, 10):
         start_urls.append(base_url+str(i))
-    num = 0
+    url_num = 0
     parse_num = 0
 
     def parse(self, response):
-        global all_num
         html = BeautifulSoup(response.body, 'lxml')
         house_list = html.select('.des a[tongji_label]')  # 解析房源链接
 
@@ -34,17 +24,13 @@ class A58Spider(scrapy.Spider):
             temp = re.search('pinpaigongyu', str(a))  # 排除品牌公寓的房源链接
             if temp is None:
                 url = a['href']
-                self.parse_num += 1
-                print('房源链接：'+str(self.parse_num)+' '+url)
+                self.url_num += 1
                 yield scrapy.Request(url, callback=self.house_parse, dont_filter=True)  # 回掉函数house_parse
 
     def house_parse(self, response):
-        global su_num
-        global fail_num
-        global exce_list
-        self.num += 1
+
         print('时间：'+time.strftime('%H:%M:%S', time.localtime()))
-        print('进入具体页面:'+str(self.num))
+        print('进入具体页面:')
         html = BeautifulSoup(response.body, 'lxml')
         house_url = response.url
         print('链接：'+house_url)
@@ -60,13 +46,12 @@ class A58Spider(scrapy.Spider):
             house_detailed_address = house_basic_info[11].get_text().strip().replace(u'\xa0', u' ')
             house_phone = html.select('.house-fraud-tip .house-chat-txt')[0].get_text().replace(u'\xa0', u' ')
             house_man = html.select('.house-agent-info .agent-name a')[0].get_text().replace(u'\xa0', u' ')
-            su_num += 1
+            self.parse_num += 1
+
         except Exception as e:
             # exce_list.append(house_url)
-            fail_num += 1
+
             print('页面解析错误：' )
-            # print(traceback.format_exc())
-            # print(html)
             return None
 
         item = FangyuanSpiderItem()
@@ -82,6 +67,7 @@ class A58Spider(scrapy.Spider):
         item['host'] = house_man
 
         yield item
+        self.get_num()
 
         # # print('房源URL：' + house_url)  # 房源url
         # print('房源标题：' + house_title)  # 房源题目
@@ -95,6 +81,8 @@ class A58Spider(scrapy.Spider):
         # print('联系人：' + house_man)
         # print('\n')
 
-
+    def get_num(self):
+        print('总共的url数：'+str(self.url_num))
+        print('解析的url数：'+str(self.parse_num))
 
 

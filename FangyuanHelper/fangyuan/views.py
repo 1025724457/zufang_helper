@@ -24,13 +24,18 @@ def show_ditu(request):
     zuping = info['zuping']
     if zuping == 'HEZU':
         zuping = '合租'
-    else:
+    elif zuping == 'ZHENGZU':
         zuping = '整租'
+    else:
+        zuping = ''
+
     fangyuan = info['fangyuan']
     if fangyuan == 'GEREN':
         fangyuan = '个人'
-    else:
+    elif fangyuan == 'JINGJIREN':
         fangyuan = '经纪人'
+    else:
+        fangyuan = ''
     # jiaotong = info['jiaotong']
     print(work_location)
     print(price1)
@@ -57,7 +62,7 @@ def show_ditu(request):
         house_detailed_address = i[8]
         house_phone = i[9]
         house_man = i[10]
-        temp += 1
+        temp += 1  # 记录数据库中的第几条数据
         if price1 <= house_price <= price2:
             if re.match(zuping, house_zuping) is not None:
                 if re.search(fangyuan,house_man) is not None:

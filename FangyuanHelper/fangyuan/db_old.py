@@ -82,7 +82,7 @@ def create_table():
                 house_url varchar(500),
                 house_price varchar(10),
                 house_zuping varchar(20),
-                house_size varchar(20),
+                house_size varchar(30),
                 house_xiaoqu varchar(20),
                 house_area varchar(20),
                 house_detailed_address varchar(60),
