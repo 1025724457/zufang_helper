@@ -41,8 +41,9 @@ class A58Spider(scrapy.Spider):
             house_zuping = house_basic_info[1].get_text().strip().replace(u'\xa0', u' ')
             house_size = house_basic_info[3].get_text().replace(' ', '').replace(u'\xa0', u' ')
             house_xiaoqu = house_basic_info[7].get_text().strip().replace(u'\xa0', u' ')
-            house_area = house_basic_info[9].get_text().replace('\n', '').replace(' ', '').replace('\r', '').replace(
-                u'\xa0', u' ')
+            # house_area = house_basic_info[9].get_text().replace('\n', '').replace(' ', '').replace('\r', '').replace(
+            #     u'\xa0', u' ')
+            house_area = house_basic_info[9].select('a')[0].get_text()
             house_detailed_address = house_basic_info[11].get_text().strip().replace(u'\xa0', u' ')
             house_phone = html.select('.house-fraud-tip .house-chat-txt')[0].get_text().replace(u'\xa0', u' ')
             house_man = html.select('.house-agent-info .agent-name a')[0].get_text().replace(u'\xa0', u' ')

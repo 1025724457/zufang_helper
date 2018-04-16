@@ -37,12 +37,12 @@ class LianjiaSpider(scrapy.Spider):
             house_basic_info = html.select('.zf-content .zf-room p')
             house_size1 = house_basic_info[0].get_text('|').split('|')[1]
             house_size2 = house_basic_info[1].get_text('|').split('|')[1].split()
-            if len(house_size2)>1:
+            if len(house_size2) > 1:
                 house_zuping = house_size2[1]
             else:
                 house_zuping = ''  # TODO 租凭为空
 
-            house_size = house_size2[0] + house_size1
+            house_size = house_size2[0] + '  ' +house_size1
             house_xiaoqu = house_basic_info[5].get_text('|').split('|')[1].split('\n')[0]
             house_area = house_basic_info[6].get_text('|').split('|')[1]
             house_detailed_address = house_xiaoqu

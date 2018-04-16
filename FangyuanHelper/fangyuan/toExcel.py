@@ -14,7 +14,8 @@ def to_excel():
     for i in house_info:
         house_title = i[1]
         house_url = i[2]
-        house_price = int(i[3])
+        # house_price = int(i[3])
+        house_price = i[3]
         house_zuping = i[4]
         house_size = i[5]
         house_xiaoqu = i[6]

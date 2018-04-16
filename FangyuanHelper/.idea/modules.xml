@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FangyuanHelper.iml" filepath="$PROJECT_DIR$/.idea/FangyuanHelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/../fangyuan_spider/.idea/fangyuan_spider.iml" filepath="$PROJECT_DIR$/../fangyuan_spider/.idea/fangyuan_spider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../matplotlib/.idea/matplotlib.iml" filepath="$PROJECT_DIR$/../../matplotlib/.idea/matplotlib.iml" />
     </modules>
   </component>
 </project>
